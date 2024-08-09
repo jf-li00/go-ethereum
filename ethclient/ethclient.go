@@ -403,6 +403,15 @@ func (ec *Client) CodeAt(ctx context.Context, account common.Address, blockNumbe
 	return result, err
 }
 
+// CodeHashAt returns the contract code hash of the given account.
+// The block number can be nil, in which case the code hash is taken
+// from the latest known block.
+func (ec *Client) CodeHashAt(ctx context.Context, account common.Address, blockNumber *big.Int) ([]byte, error) {
+	var result hexutil.Bytes
+	err := ec.c.CallContext(ctx, &result, "eth_getCodeHash", account, toBlockNumArg(blockNumber))
+	return result, err
+}
+
 // CodeAtHash returns the contract code of the given account.
 func (ec *Client) CodeAtHash(ctx context.Context, account common.Address, blockHash common.Hash) ([]byte, error) {
 	var result hexutil.Bytes
